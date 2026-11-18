@@ -5,7 +5,6 @@ Android SDK for SUNTEK FA8 / FA10 series devices. Provides system-level control 
 ## Contents
 
 - `FA8API-SUNTEK.jar` — Java SDK (`com.suntek.SUNTEK`)
-- `API-SUNTEK .docx` — API usage (Word, new JAR)
 
 ## Getting Started
 
@@ -181,10 +180,12 @@ boolean success = p.waitFor() == 0;
 # FA8 / FA10 System API Detailed Reference
 
 FA8 / FA10 SDK API User Guide
+
 FA8API-SUNTEK.jar · com.suntek.SUNTEK
+
 The API described in this document corresponds to the FA8/FA10 series products. You need to check the hardware specifications to confirm the actual peripherals supported by the board.
 
-## 0. Integrate the new JAR (changes relative to the old document)
+#### 0. Integrate the new JAR (changes relative to the old document)
 
 Application projects should only depend on the new package and should not include YNHAPI-20251224.jar at the same time.
 
@@ -198,22 +199,30 @@ Application projects should only depend on the new package and should not includ
 | IP Entity | com.suntek.entity.IpConfig |
 | Stored information | com.suntek.StorageInfo |
 
-
-## 0.1 is placed in the project.
+#### 0.1 is placed in the project.
 
 Copy FA8API-SUNTEK.jar to the app/libs/ directory of your Android project, and add the following to app/build.gradle:
-dependencies { implementation files('libs/FA8API-SUNTEK.jar') }
 
-## 0.2 Retrieve Interface Instance
+dependencies {
+implementation files('libs/FA8API-SUNTEK.jar')
+}
+
+### 0.2 Retrieve Interface Instance
 
 All subsequent examples will use this mAPI.
-import com.suntek.SUNTEK; import com.suntek.StorageInfo; import com.suntek.entity.IpConfig; SUNTEK mAPI = SUNTEK.getInstance();
 
-## 0.3 Real Device Self-Test Entry
+import com.suntek.SUNTEK;
+import com.suntek.StorageInfo;
+import com.suntek.entity.IpConfig;
+SUNTEK mAPI = SUNTEK.getInstance();
+
+### 0.3 Real Device Self-Test Entry
 
 The relevant interfaces can be verified in the device's "Settings → User Settings". The current firmware menu text may still display YNHCommonAPI, which is the name of the pre-installed application, not the JAR class name.
+
 The new test APK project is FA8CommonApi, and the source code package name is com.suntek.fa8.
-Edit History
+
+#### Edit History
 
 | date | Modification points |
 | :--- | :--- |
@@ -232,138 +241,211 @@ Edit History
 | 20251224 | Increase watchdog timeout time |
 | 20260813 | The document has been changed to Word; all examples have been switched to FA8API-SUNTEK.jar / com.suntek.SUNTEK |
 
-
-## 2. System Parameters
+#### 2. System Parameters
 
 Most setters require a subsequent call to mAPI.reboot() to take effect.
 
-## 2.1 Obtain the motherboard model
+### 2.1 Obtain the motherboard model
 
 String model = mAPI.getBoardModel();
 
-## 2.2 Serial Number
+### 2.2 Serial Number
 
-
-## 2.2.1 Obtaining
+#### 2.2.1 Obtaining
 
 String sn = mAPI.getSerialNo(); // Consistent with Build.SERIAL
 
-## 2.2.2 Settings
+#### 2.2.2 Settings
 
-String serialNo = "12345678"; mAPI.setSerialNo(serialNo); mAPI.reboot();
+String serialNo = "12345678";
+mAPI.setSerialNo(serialNo);
+mAPI.reboot();
 
-## 2.3 Ethernet MAC
+### 2.3 Ethernet MAC
 
-String mac = mAPI.getEthernetMAC(); mAPI.setEthernetMAC("00:E0:EC:37:2A:42"); mAPI.reboot();
+String mac = mAPI.getEthernetMAC();
+mAPI.setEthernetMAC("00:E0:EC:37:2A:42");
+mAPI.reboot();
 
-## 2.4 4G Module IMEI
+### 2.4 4G Module IMEI
 
-String imei = mAPI.getIMEI(); mAPI.setIMEI("864793030776509"); mAPI.reboot();
+String imei = mAPI.getIMEI();
+mAPI.setIMEI("864793030776509");
+mAPI.reboot();
 
-## 2.5 Equipment Model
+### 2.5 Equipment Model
 
-String model = mAPI.getProductModel(); // Consistent with Build.MODEL mAPI.setProductModel("123456"); mAPI.reboot();
+String model = mAPI.getProductModel(); // Consistent with Build.MODEL
+mAPI.setProductModel("123456");
+mAPI.reboot();
 
-## 2.6 Device Storage Information
+### 2.6 Device Storage Information
 
 Returns a list of com.suntek.StorageInfo locations, including internal storage, TF/SD, and USB storage. Unit: KB.
-List<StorageInfo> list = mAPI.getStorageInfos(); for (StorageInfo info : list) { int type = info.getType(); // TYPE_MEMORY / TYPE_LOCAL_STORAGE / TYPE_TFCARD / TYPE_USB_STORAGE long total = info.getTotalSize(); long free = info.getFreeSize(); String path = info.getPath(); }
 
-## 2.7 Boot Image
+List<StorageInfo> list = mAPI.getStorageInfos();
+for (StorageInfo info : list) {
+int type = info.getType(); // TYPE_MEMORY / TYPE_LOCAL_STORAGE / TYPE_TFCARD / TYPE_USB_STORAGE
+long total = info.getTotalSize();
+long free = info.getFreeSize();
+String path = info.getPath();
+}
+
+### 2.7 Boot Image
 
 mAPI.setBootLogo("/sdcard/boot.bmp"); // Must be an 8-bit BMP
 
-## 2.8 Boot Animation
+### 2.8 Boot Animation
 
 mAPI.setBootAnimation("/sdcard/bootanimation.zip"); // Standard Android bootanimation
 
-## 2.9 APK Installation Strategy (Whitelist)
+### 2.9 APK Installation Strategy (Whitelist)
 
-SUNTEK.InstallPackagePolicy policy = mAPI.new InstallPackagePolicy(); List<String> allow = new ArrayList<>(); allow.add("com.example.app"); policy.setAllowInstallPackageList(allow); // ALLOW_INSTALL_TYPE_NORMAL = -1 Cancel policy // ALLOW_INSTALL_TYPE_NOT_ALLOW = 0 Whitelist only, otherwise reject // ALLOW_INSTALL_TYPE_PASSWORD = 1 Password required for non-whitelisted users policy.setAllowInstallType(SUNTEK.InstallPackagePolicy.ALLOW_INSTALL_TYPE_PASSWORD); policy.setAllowInstallPassword("1234abcd"); mAPI.setInstallPackagePolicy(policy);
+SUNTEK.InstallPackagePolicy policy = mAPI.new InstallPackagePolicy();
+List<String> allow = new ArrayList<>();
+allow.add("com.example.app");
+policy.setAllowInstallPackageList(allow);
+// ALLOW_INSTALL_TYPE_NORMAL = -1 Cancel policy
+// ALLOW_INSTALL_TYPE_NOT_ALLOW = 0 Whitelist only, otherwise reject
+// ALLOW_INSTALL_TYPE_PASSWORD = 1 Password required for non-whitelisted users
+policy.setAllowInstallType(SUNTEK.InstallPackagePolicy.ALLOW_INSTALL_TYPE_PASSWORD);
+policy.setAllowInstallPassword("1234abcd");
+mAPI.setInstallPackagePolicy(policy);
 
-## 2.10 Setting the Language
+### 2.10 Setting the Language
 
 mAPI.updateLanguage("zh", "CN"); // Corresponds to values-zh-rCN
+
 Commonly used: zh/CN, zh/TW, zh/HK, en/US, en/GB, ja/JP, ko/KR, etc., consistent with Android values-xx-rYY.
 
-## 3. OTA upgrade
+#### 3. OTA upgrade
 
 The upgrade package must be placed in the sdcard directory, and the file name should be update.zip.
+
 mAPI.otaUpdate("/sdcard/update.zip");
 
-## 4. APK Management
+#### 4. APK Management
 
-
-## 4.1 Automatic startup upon system boot
+### 4.1 Automatic startup upon system boot
 
 mAPI.setBootLaunchApk("com.example.app", true);
 
-## 4.2 Silent Installation
+### 4.2 Silent Installation
 
-`mAPI.installApkSilently("/sdcard/API.apk", "com.example", "com.example.MainActivity"); ` // The last two parameters being null indicates that `mAPI.installApkSilently("/sdcard/API.apk", null, null);` indicates that the application will not launch automatically after installation .
+`mAPI.installApkSilently("/sdcard/API.apk", "com.example", "com.example.MainActivity"); ` // The last two parameters being null indicates that
+`mAPI.installApkSilently("/sdcard/API.apk", null, null);` indicates that the application will not launch automatically after installation .
 
-## 4.3 Silent Uninstallation
+### 4.3 Silent Uninstallation
 
 mAPI.uninstallApkSilently("com.example.app");
 
-## 4.4 Application Guardian
+### 4.4 Application Guardian
 
 Restarting does not retain the changes; the application needs to access them again after booting up.
-// Non-foreground guardian, checks every 10 seconds. mAPI.setAppKeepLive("com.example.app", 10); mAPI.setAppKeepLive("", 1); // Cancel // Foreground guardian mAPI.setForegroundAppKeepLive("com.example.app", 10); mAPI.setForegroundAppKeepLive("", 1);
 
-## 5. Display
+// Non-foreground guardian, checks every 10 seconds.
+mAPI.setAppKeepLive("com.example.app", 10);
+mAPI.setAppKeepLive("", 1); // Cancel
+// Foreground guardian
+mAPI.setForegroundAppKeepLive("com.example.app", 10);
+mAPI.setForegroundAppKeepLive("", 1);
 
+#### 5. Display
 
-## 5.1 / 5.2 Screen Rotation
+#### 5.1 / 5.2 Screen Rotation
 
-SUNTEK.RotationDegree deg = mAPI.getScreenRotation(SUNTEK.ScreenType.MAIN); if (deg == SUNTEK.RotationDegree.DEGREE_90) { } mAPI.setScreenRotation(SUNTEK.ScreenType.AUX, SUNTEK.RotationDegree.DEGREE_180);
+SUNTEK.RotationDegree deg = mAPI.getScreenRotation(SUNTEK.ScreenType.MAIN);
+if (deg == SUNTEK.RotationDegree.DEGREE_90) { }
+mAPI.setScreenRotation(SUNTEK.ScreenType.AUX, SUNTEK.RotationDegree.DEGREE_180);
 
-## 5.3 / 5.4 screen density
+#### 5.3 / 5.4 screen density
 
-SUNTEK.LcdDensity density = mAPI.getLcdDensity(); mAPI.setLcdDensity(SUNTEK.LcdDensity.DENSITY_240);
+SUNTEK.LcdDensity density = mAPI.getLcdDensity();
+mAPI.setLcdDensity(SUNTEK.LcdDensity.DENSITY_240);
 
-## 5.5 / 5.6 Screen On/Off
+#### 5.5 / 5.6 Screen On/Off
 
 isScreenOn() cannot be used to determine this function after sleep/wakeup; it is only applicable when the app itself calls setScreenOnOff.
-boolean on = mAPI.isScreenOn(); mAPI.setScreenOnOff(false);
 
-## 6. Watchdog
+boolean on = mAPI.isScreenOn();
+mAPI.setScreenOnOff(false);
 
-mAPI.enableWatchdog(true); mAPI.setWatchdogTimeout(15); // seconds, may vary by 1-2 seconds depending on the platform. mAPI.feedWatchdog(); // It is recommended to feed the watchdog approximately every 10 seconds. mAPI.enableWatchdog(false);
+#### 6. Watchdog
 
-## 7. Shutting down and restarting
+mAPI.enableWatchdog(true);
+mAPI.setWatchdogTimeout(15); // seconds, may vary by 1-2 seconds depending on the platform.
+mAPI.feedWatchdog(); // It is recommended to feed the watchdog approximately every 10 seconds.
+mAPI.enableWatchdog(false);
 
-mAPI.shutdown(); mAPI.reboot();
+#### 7. Shutting down and restarting
 
-## 8. Hibernation and Wake-up
+mAPI.shutdown();
+mAPI.reboot();
 
-PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE); boolean isInteractive = pm.isInteractive(); mAPI.sleep(); mAPI.wakeup();
+#### 8. Hibernation and Wake-up
 
-## 9. Navigation bar and status bar
+PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+boolean isInteractive = pm.isInteractive();
+mAPI.sleep();
+mAPI.wakeup();
+
+#### 9. Navigation bar and status bar
 
 Navigation bar: VISIBLE (visible); INVISIBLE (invisible but can be swiped up); ALWAYS_INVISIBLE (invisible and cannot be swiped out).
-mAPI.setNavigationBarVisibility(SUNTEK.NavigationBarVisibility.ALWAYS_INVISIBLE); SUNTEK.NavigationBarVisibility v = mAPI.getNavigationBarVisibility(); if (v == SUNTEK.NavigationBarVisibility.ALWAYS_INVISIBLE) { mAPI.setNavigationBarVisibility(SUNTEK.NavigationBarVisibility.VISIBLE); }
+
+mAPI.setNavigationBarVisibility(SUNTEK.NavigationBarVisibility.ALWAYS_INVISIBLE);
+SUNTEK.NavigationBarVisibility v = mAPI.getNavigationBarVisibility();
+if (v == SUNTEK.NavigationBarVisibility.ALWAYS_INVISIBLE) {
+mAPI.setNavigationBarVisibility(SUNTEK.NavigationBarVisibility.VISIBLE);
+}
+
 A restart is required for the settings in the drop-down status bar to take effect.
-mAPI.setExtendStatusBarVisibility(SUNTEK.ExtendStatusBarVisibility.VISIBLE); SUNTEK.ExtendStatusBarVisibility sv = mAPI.getExtendStatusBarVisibility();
 
-## 10. Root privileges
+mAPI.setExtendStatusBarVisibility(SUNTEK.ExtendStatusBarVisibility.VISIBLE);
+SUNTEK.ExtendStatusBarVisibility sv = mAPI.getExtendStatusBarVisibility();
 
-if (!mAPI.isRoot()) { if (mAPI.enableRoot(true)) { Log.d(TAG, "Successful root"); } }
+#### 10. Root privileges
 
-## 11. Ethernet
+if (!mAPI.isRoot()) {
+if (mAPI.enableRoot(true)) {
+Log.d(TAG, "Successful root");
+}
+}
 
-IpConfig ipConfig = mAPI.getIpConfig(); String ip = ipConfig.ip; String mask = ipConfig.mask; String gateway = ipConfig.gateway; ArrayList<String> dnsList = ipConfig.dnsList; mAPI.setStaticIp(new IpConfig("192.0.2.10", "255.255.255.0", "192.0.2.10", Arrays.asList("192.0.2.10"))); mAPI.setDhcpIp(); SUNTEK.IpMode mode = mAPI.getIpMode(); // STATIC / DHCP boolean open = mAPI.isEthernetOpen(); mAPI.setEthernetState(true);
+#### 11. Ethernet
 
-## 12. System Time
+IpConfig ipConfig = mAPI.getIpConfig();
+String ip = ipConfig.ip;
+String mask = ipConfig.mask;
+String gateway = ipConfig.gateway;
+ArrayList<String> dnsList = ipConfig.dnsList;
+mAPI.setStaticIp(new IpConfig("192.0.2.10", "255.255.255.0", "192.0.2.10",
+Arrays.asList("192.0.2.10")));
+mAPI.setDhcpIp();
+SUNTEK.IpMode mode = mAPI.getIpMode(); // STATIC / DHCP
+boolean open = mAPI.isEthernetOpen();
+mAPI.setEthernetState(true);
 
-Calendar calendar = Calendar.getInstance(Locale.getDefault()); calendar.set(2021, 10, 28, 6, 0, 0); // Months start from 0 mAPI.setSystemTime(calendar.getTimeInMillis());
+#### 12. System Time
+
+Calendar calendar = Calendar.getInstance(Locale.getDefault());
+calendar.set(2021, 10, 28, 6, 0, 0); // Months start from 0
+mAPI.setSystemTime(calendar.getTimeInMillis());
+
 Scheduled power on/off: type=1 only takes effect once; type=3 cycles weekly, requires resetting after factory reset or flashing the firmware.
-int type = 3; int[] weekdays = {1, 3, 4, 5}; // Monday, Wednesday, Thursday, Friday int[] poweroff = {20, 30}; int[] poweron = {8, 35}; mAPI.setPowerOnOffAlarmCycle(type, weekdays, poweroff, poweron); mAPI.cancelPowerOnOffAlarm(); boolean netTime = mAPI.isEnableNetworkProvidedTime(); mAPI.setEnableNetworkProvidedTime(true);
 
-## 13. Hardware Module
+int type = 3;
+int[] weekdays = {1, 3, 4, 5}; // Monday, Wednesday, Thursday, Friday
+int[] poweroff = {20, 30};
+int[] poweron = {8, 35};
+mAPI.setPowerOnOffAlarmCycle(type, weekdays, poweroff, poweron);
+mAPI.cancelPowerOnOffAlarm();
+boolean netTime = mAPI.isEnableNetworkProvidedTime();
+mAPI.setEnableNetworkProvidedTime(true);
 
+#### 13. Hardware Module
 
-## 13.1 GPIO
+### 13.1 GPIO
 
 GPIO is used for I/O, relays, fill lights, USB power supply, cash drawer, doorbell, etc. The actual ports supported by the board are specified in the hardware datasheet. Constants are defined in SUNTEK. The listener function polls approximately once per second, making it unsuitable for detecting key presses less than one second in duration.
 
@@ -379,25 +461,55 @@ GPIO is used for I/O, relays, fill lights, USB power supply, cash drawer, doorbe
 | SUNTEK.USB_1 / USB_2 / USB_3 | 25 / 26 / 27 | USB powered |
 | SUNTEK.LIGHT_CAMERA_EXTERNAL_INFRARED | 29 | MIPI camera infrared fill light |
 
-if (mAPI.getGpioState(SUNTEK.GPIO_1) == SUNTEK.GpioState.HIGH) { } mAPI.setGpioState(SUNTEK.GPIO_1, SUNTEK.GpioState.HIGH); SUNTEK.GpioMode mode = mAPI.getGpioMode(SUNTEK.GPIO_1); mAPI.setGpioMode(SUNTEK.GPIO_1, SUNTEK.GpioMode.INPUT); SUNTEK.GpioListenerCallback cb = new SUNTEK.GpioListenerCallback() { public void onChanged(int index, int oldValue, int newValue) { } }; mAPI.listenGpio(SUNTEK.GPIO_1, cb); mAPI.unlistenGpio(SUNTEK.GPIO_1, cb);
+if (mAPI.getGpioState(SUNTEK.GPIO_1) == SUNTEK.GpioState.HIGH) { }
+mAPI.setGpioState(SUNTEK.GPIO_1, SUNTEK.GpioState.HIGH);
+SUNTEK.GpioMode mode = mAPI.getGpioMode(SUNTEK.GPIO_1);
+mAPI.setGpioMode(SUNTEK.GPIO_1, SUNTEK.GpioMode.INPUT);
+SUNTEK.GpioListenerCallback cb = new SUNTEK.GpioListenerCallback() {
+public void onChanged(int index, int oldValue, int newValue) { }
+};
+mAPI.listenGpio(SUNTEK.GPIO_1, cb);
+mAPI.unlistenGpio(SUNTEK.GPIO_1, cb);
 
-## 13.2 LED brightness
+### 13.2 LED brightness
 
 mAPI.setLightBrightness(SUNTEK.LIGHT_RED, 204); // 0～255, 204 ≈ 80%
 
-## 13.3 Wiegand
+### 13.3 Wiegand
 
-SUNTEK.WiegandMode wm = mAPI.readWiegandMode(); mAPI.writeWiegandMode(SUNTEK.WiegandMode.INPUT); // Synchronous blocking read, please put it in a background thread long code = mAPI.readWiegand(); // Asynchronous read: For continuous reads, you must register SUNTEK.WiegandCallback again in onSuccess / onFailure wcb = new SUNTEK.WiegandCallback() { public void onSuccess(long code) { mAPI.readWiegandAsyn(this); } public void onFailure() { mAPI.readWiegandAsyn(this); } }; mAPI.readWiegandAsyn(wcb); // Callback in worker thread mAPI.writeWiegand(SUNTEK.WiegandFormat.FORMAT_26, 12345678);
+SUNTEK.WiegandMode wm = mAPI.readWiegandMode();
+mAPI.writeWiegandMode(SUNTEK.WiegandMode.INPUT);
+// Synchronous blocking read, please put it in a background thread
+long code = mAPI.readWiegand(); // Asynchronous read: For continuous reads, you must register
+SUNTEK.WiegandCallback
+again in onSuccess / onFailure wcb = new SUNTEK.WiegandCallback() {
+public void onSuccess(long code) { mAPI.readWiegandAsyn(this); }
+public void onFailure() { mAPI.readWiegandAsyn(this); }
+};
+mAPI.readWiegandAsyn(wcb); // Callback in worker thread
+mAPI.writeWiegand(SUNTEK.WiegandFormat.FORMAT_26, 12345678);
 
-## 14. Reference Code
+#### 14. Reference Code
 
-
-## 14.1 Cash Box
+### 14.1 Cash Box
 
 First lower it by 500ms, then raise it.
-CompletableFuture.runAsync(() -> { mAPI.setGpioState(SUNTEK.CASHBOX_0, SUNTEK.GpioState.LOW); try { TimeUnit.MILLISECONDS.sleep(500); } catch (InterruptedException e) { } }).thenAccept(u -> { mAPI.setGpioState(SUNTEK.CASHBOX_0, SUNTEK.GpioState.HIGH); });
 
-## 14.2 Executing the root command
+CompletableFuture.runAsync(() -> {
+mAPI.setGpioState(SUNTEK.CASHBOX_0, SUNTEK.GpioState.LOW);
+try { TimeUnit.MILLISECONDS.sleep(500); } catch (InterruptedException e) { }
+}).thenAccept(u -> {
+mAPI.setGpioState(SUNTEK.CASHBOX_0, SUNTEK.GpioState.HIGH);
+});
 
-boolean executeCmd(String content) throws IOException, InterruptedException { Process p = Runtime.getRuntime().exec("su"); PrintWriter pw = new PrintWriter(p.getOutputStream(), true); pw.println(content); pw.println("exit"); return p.waitFor() == 0; }
-Appendix. Explanation
+### 14.2 Executing the root command
+
+boolean executeCmd(String content) throws IOException, InterruptedException {
+Process p = Runtime.getRuntime().exec("su");
+PrintWriter pw = new PrintWriter(p.getOutputStream(), true);
+pw.println(content);
+pw.println("exit");
+return p.waitFor() == 0;
+}
+
+#### Appendix. Explanation
