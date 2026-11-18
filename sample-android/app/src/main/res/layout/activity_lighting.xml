@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/main"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LED Command Comprehensive Test Tool"
+            android:textSize="24sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Log area -->
+        <TextView
+            android:id="@+id/tv_log"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:padding="10dp"
+            android:text="Operation logs will be displayed here..."
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:gravity="top"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Button area -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 1. HEX format - Fill Light -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. HEX Format - Fill Light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+            <Button android:id="@+id/btn_hex_fill_light_100" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Set Brightness 100% (4C 64 23)"/>
+            <Button android:id="@+id/btn_hex_fill_light_60" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Set Brightness 60% (4C 3C 23)"/>
+            <Button android:id="@+id/btn_hex_fill_light_off" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Turn Off Fill Light (4C 00 23)"/>
+            <Button android:id="@+id/btn_hex_fill_light_query" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Query Brightness (4C FF 23)"/>
+
+            <!-- 2. HEX format - Status Light Color -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. HEX Format - Status Light Color"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <Button android:id="@+id/btn_hex_status_red" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Red (FF 00 00)"/>
+            <Button android:id="@+id/btn_hex_status_green" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Green (00 FF 00)"/>
+            <Button android:id="@+id/btn_hex_status_blue" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Blue (00 00 FF)"/>
+            <Button android:id="@+id/btn_hex_status_white" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="White (FF FF FF)"/>
+            <Button android:id="@+id/btn_hex_status_off" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Turn Off Status Light (00 00 00)"/>
+
+            <!-- 3. HEX format - Status Light Blink -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. HEX Format - Status Light Blink"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <Button android:id="@+id/btn_hex_status_blink" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Red Blink 100 Times (FF 00 00 3C 28 64 00)"/>
+
+            <!-- 4. String format - Fill Light -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4. String Format - Fill Light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <Button android:id="@+id/btn_str_fill_light_100" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="100% Brightness (LED100#)"/>
+            <Button android:id="@+id/btn_str_fill_light_50" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="50% Brightness (LED050#)"/>
+            <Button android:id="@+id/btn_str_fill_light_off" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Turn Off (LED000#)"/>
+            <Button android:id="@+id/btn_str_fill_light_query" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Query (LED#)"/>
+
+            <!-- 5. String format - Status Light -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5. String Format - Status Light"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <Button android:id="@+id/btn_str_status_red" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Red (L0001#)"/>
+            <Button android:id="@+id/btn_str_status_green" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Green (L0010#)"/>
+            <Button android:id="@+id/btn_str_status_blue" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Blue (L0100#)"/>
+            <Button android:id="@+id/btn_str_status_white" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="White (L0111#)"/>
+            <Button android:id="@+id/btn_str_status_red_blink" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Red Blink (L0001S)"/>
+
+            <!-- 6. String format - Full Color Control -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6. String Format - Full Color Control"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+            <Button android:id="@+id/btn_str_full_color_orange" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Orange (L992500#)"/>
+            <Button android:id="@+id/btn_str_full_color_blink" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Red Blink 10 Times Then Off (Combo Command Required)"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

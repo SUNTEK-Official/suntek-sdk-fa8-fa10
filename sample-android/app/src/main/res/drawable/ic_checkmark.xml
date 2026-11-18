@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- 外圈光晕 -->
+    <path
+        android:strokeWidth="8"
+        android:strokeColor="#00FF00"
+        android:fillColor="#00000000"
+        android:pathData="M100,30c38.7,0 70,31.3 70,70s-31.3,70 -70,70S30,138.7 30,100S61.3,30 100,30z"/>
+
+    <!-- 对勾主体 -->
+    <path
+        android:strokeWidth="12"
+        android:strokeColor="#00FF00"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M55,105l30,30l60,-70"/>
+
+    <!-- 内部光晕效果 -->
+    <path
+        android:strokeWidth="4"
+        android:strokeColor="#88FF88"
+        android:fillColor="#00000000"
+        android:pathData="M100,45c30.4,0 55,24.6 55,55s-24.6,55 -55,55S45,130.4 45,100S69.6,45 100,45z"/>
+</vector>

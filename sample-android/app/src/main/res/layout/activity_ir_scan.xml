@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tech_background_ir"
+    tools:context=".nextview.IrScanActivity">
+
+    <!-- Tech background decoration -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/tech_grid_overlay" />
+
+    <!-- Main content container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/ir_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IR Scanner"
+            android:textSize="58sp"
+            android:textStyle="bold"
+            android:textColor="#FF9800"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Status prompt area - waiting for scan -->
+        <LinearLayout
+            android:id="@+id/scan_prompt_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <!-- IR Scan Icon -->
+            <ImageView
+                android:id="@+id/ir_icon"
+                android:layout_width="420dp"
+                android:layout_height="420dp"
+                android:src="@drawable/ic_ir_scan"
+                android:contentDescription="IR Scan Icon"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Main prompt text - large font -->
+            <TextView
+                android:id="@+id/ir_scan_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please Scan Barcode"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Subtitle prompt -->
+            <TextView
+                android:id="@+id/ir_sub_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Point scanner at the barcode"
+                android:textSize="18sp"
+                android:textColor="#AAAAAA"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Scan success area - hidden by default -->
+        <LinearLayout
+            android:id="@+id/success_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <!-- Success checkmark icon -->
+            <ImageView
+                android:id="@+id/success_checkmark"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:src="@drawable/ic_checkmark"
+                android:contentDescription="Success Checkmark"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Success prompt text -->
+            <TextView
+                android:id="@+id/ir_success_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Barcode Recognition Passed"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#00FF00"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Display scanned content -->
+            <TextView
+                android:id="@+id/ir_info_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20sp"
+                android:textColor="#FF9800"
+                android:gravity="center"
+                android:maxWidth="400dp"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

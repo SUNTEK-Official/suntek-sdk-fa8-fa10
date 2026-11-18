@@ -1,0 +1,40 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="400dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- 外圈 -->
+    <path
+        android:strokeWidth="8"
+        android:strokeColor="#00FFFF"
+        android:fillColor="#00000000"
+        android:pathData="M100,40c-33.1,0 -60,26.9 -60,60s26.9,60 60,60s60,-26.9 60,-60S133.1,40 100,40z"/>
+
+    <!-- NFC 信号波纹 1 -->
+    <path
+        android:strokeWidth="6"
+        android:strokeColor="#00FFFF"
+        android:fillColor="#00000000"
+        android:pathData="M100,55c-24.8,0 -45,20.2 -45,45s20.2,45 45,45s45,-20.2 45,-45S124.8,55 100,55z"/>
+
+    <!-- NFC 信号波纹 2 -->
+    <path
+        android:strokeWidth="6"
+        android:strokeColor="#00FFFF"
+        android:fillColor="#00000000"
+        android:pathData="M100,70c-16.5,0 -30,13.5 -30,30s13.5,30 30,30s30,-13.5 30,-30S116.5,70 100,70z"/>
+
+    <!-- 中心芯片 - 使用 path 代替 rect -->
+    <path
+        android:strokeWidth="2"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="#00FFFF"
+        android:pathData="M80,75h40v50h-40z"/>
+
+    <!-- 芯片线条 -->
+    <path
+        android:strokeWidth="3"
+        android:strokeColor="#FFFFFF"
+        android:pathData="M90,75L90,65M100,75L100,65M110,75L110,65M90,125L90,135M100,125L100,135M110,125L110,135"/>
+</vector>

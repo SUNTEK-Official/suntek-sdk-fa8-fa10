@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Serial Number Display -->
+    <TextView
+        android:id="@+id/sn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Servicer Number!"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:background="#F5F5F5"
+        android:layout_marginBottom="16dp" />
+
+    <!-- NFC Button -->
+    <Button
+        android:id="@+id/nfc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nfc"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Function Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- IR Scan Button -->
+        <Button
+            android:id="@+id/ir_scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IR Scan Demo"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Lighting Control Button -->
+        <Button
+            android:id="@+id/light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/light"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
